@@ -1,0 +1,25 @@
+@DataProvider(name=”valid”)
+public Iterator<Object[]> valid() throws IOException {
+   List<Object[]> data = new ArrayList<Object[]>();
+   BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/data.csv")));
+   String line = reader.readLine();
+   while (line != null) {
+       String[] split = line.split(";");
+       data.add(split);
+       line = reader.readLine();
+   }
+   return data.iterator();
+}
+
+@Test(dataProvider = "valid")
+    public void third(String[] str) {
+        driver.get("https://experitest.com/");
+        WebElement searchBar = driver.findElement(By.linkText(str[0]));
+        searchBar.click();
+        Assert.assertEquals(driver.findElement(By.tagName("h1")).getText(), str[1]);
+    }
+
+data.csv structure is shown below:
+Mobile Device & Browser Lab;Mobile Device & Browser Lab
+Live Cross Browser Testing;Cross Browser Testing
+Automated Mobile Testing;Mobile Test Automation
