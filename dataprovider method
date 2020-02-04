@@ -1,0 +1,18 @@
+@DataProvider()
+    public Object[][] listOfLinks() {
+        return new Object[][] {
+                {"Mobile Device & Browser Lab", "Mobile Device & Browser Lab"},
+                {"Live Cross Browser Testing", "Cross Browser Testing"},
+                {"Automated Mobile Testing", "Mobile Test Automation!"},
+        };
+    }
+
+Test refers to the dataprovider method with the corresponding name.
+
+@Test(dataProvider = "listOfLinks")
+    public void firstTestWithSimpleData(String linkname, String header) {
+        driver.get("https://experitest.com/");
+        WebElement searchBar = driver.findElement(By.linkText(linkname));
+        searchBar.click();
+        Assert.assertEquals(driver.findElement(By.tagName("h1")).getText(), header);
+    }
