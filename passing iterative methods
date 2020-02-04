@@ -1,0 +1,15 @@
+@DataProvider(name = "iterator")
+public Iterator<Object[]> locales() {
+   List<Object[]> data = new ArrayList<Object[]>();
+   data.add(new String[]{"Mobile Device & Browser Lab"});
+   data.add(new String[]{"Live Cross Browser Testing"});
+   data.add(new String[]{"Automated Mobile Testing"});
+   return data.iterator();
+}
+
+@Test(dataProvider = "iterator")
+public void secondTestWithIterator(String locale) {
+   driver.get("https://experitest.com/");
+        WebElement searchBar = driver.findElement(By.linkText(linkname));
+        searchBar.click();
+}
