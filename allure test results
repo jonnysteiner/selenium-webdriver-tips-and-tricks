@@ -1,0 +1,13 @@
+[INFO] Results:
+[INFO] 
+[ERROR] Failures: 
+[ERROR] TestNGReport.testLink(TestNGReport)
+[INFO]   Run 1: PASS
+[INFO]   Run 2: PASS
+[ERROR]   Run 3: TestNGReport.testLink:39 expected [Mobile Test Automation!] but found [Mobile Test Automation]
+[INFO] 
+[INFO] 
+[ERROR] Tests run: 1, Failures: 1, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
