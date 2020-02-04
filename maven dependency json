@@ -1,0 +1,45 @@
+@DataProvider()
+public Iterator<Object[]> validFromJson() throws IOException {
+   BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/data.json")));
+   String json = "";
+   String line = reader.readLine();
+   while (line != null) {
+       json += line;
+       line = reader.readLine();
+   }
+   Gson gson = new Gson();
+   List<TestData> data = gson.fromJson(json, new TypeToken<List<TestData>>(){}.getType());
+   return data.stream().map((o) -> new Object[] {o}).collect(Collectors.toList()).iterator();
+}
+
+@Test(dataProvider = "validFromJson")
+public void testForJsonData(TestData element) {
+   driver.get("https://experitest.com/");
+   WebElement searchBar = driver.findElement(By.linkText(element.getLink()));
+   searchBar.click();
+   Assert.assertEquals(driver.findElement(By.tagName("h1")).getText(), element.getHeader());
+}
+data.json file structure is shown below:
+[
+  {"link": "Mobile Device & Browser Lab", "header": "Mobile Device & Browser Lab"},
+  {"link": "Live Cross Browser Testing", "header": "Cross Browser Testing"},
+  {"link": "Automated Mobile Testing", "header": "Mobile Test Automation"}
+]
+
+TestData class is presented below. @Expose annotation indicates that this element has to be available for JSON serialization and deserialization.
+
+import com.google.gson.annotations.Expose;
+public class TestData {
+    @Expose
+    String link;
+    @Expose
+    String header;
+
+    public String getLink() {
+        return link;
+    }
+
+    public String getHeader() {
+        return header;
+    }
+}
