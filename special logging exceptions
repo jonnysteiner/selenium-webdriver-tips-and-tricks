@@ -1,0 +1,22 @@
+@Test
+public void Experitest3() {
+   String expectedTitle = "experitest.com";
+   String actualTitle = "";
+   driver.get("https://experitest.com/pricing");
+   log.debug("page is loaded");
+wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"starter\"]"))).click();
+   log.debug("\"Choose Plan\" button is exist and clickable");
+   actualTitle = driver.getTitle();
+   try {
+       int A = 5/0;
+   } catch(Exception e) {
+       log.log(Level.ERROR,"Exceptions happen!", e); //this will put all the details in log file configured earlier
+org.testng.Assert.fail();
+   }
+   if (actualTitle.contentEquals(expectedTitle)) {
+       log.info("3rd TEST PASSED!");
+   } else {
+       log.info("3rd TEST FAILED");
+       log.debug("it's Ok, the title for this page isn't experitest.com");
+   }
+}
