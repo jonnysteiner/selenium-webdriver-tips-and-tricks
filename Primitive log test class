@@ -1,0 +1,97 @@
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+
+public class LogTest {
+
+   WebDriver driver = new ChromeDriver();
+   WebDriverWait wait = new WebDriverWait(driver, 60);
+
+   @BeforeTest
+   public void beforeTest() {
+       System.setProperty("webdriver.chrome.driver","F:\\Jenkins\\workspace\\chromedriver.exe"); // <-- Change this path
+       System.out.println("Test started");
+       }
+   @Test
+   public void Experitest1(){
+       String expectedText = "Last updated: 22 May 2018";
+       String actualText = "";
+       driver.get("https://experitest.com/legal");
+       wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[2]/div/div/p[3]/span")));
+       actualText = driver.findElement(By.xpath("//div[2]/div/div/p[3]/span")).getText();
+       if (actualText.contentEquals(expectedText)){
+           System.out.println("1st TEST PASSED!");
+       } else {
+           System.out.println("1st TEST FAILED");
+       }
+   }
+
+   @Test
+   public void Experitest2(){
+       String expectedTitle = "experitest.com";
+       String actualTitle = "";
+       driver.get("https://experitest.com/free-trial/");
+       actualTitle = driver.getTitle();
+       if (actualTitle.contentEquals(expectedTitle)){
+           System.out.println("2nd TEST PASSED!");
+       } else {
+           System.out.println("2nd TEST FAILED");
+       }
+   }
+
+   @Test
+   public void Experitest3() {
+       String expectedTitle = "experitest.com";
+       String actualTitle = "";
+       driver.get("https://experitest.com/pricing");
+       wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"starter\"]"))).click();
+       actualTitle = driver.getTitle();
+       actualTitle.contentEquals(expectedTitle);
+       if (actualTitle.contentEquals(expectedTitle)){
+           System.out.println("3rd TEST PASSED!");
+       } else {
+           System.out.println("3rd TEST FAILED");
+       }
+   }
+
+   @Test
+   public void Experitest4(){
+
+       wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[1]/div/div/div/div[3]/a"))).click();
+       Boolean isPresent = driver.findElements(By.xpath("/html/body/section/div/div[3]/div/div[2]/div")).size() > 0;
+       if (isPresent){
+           System.out.println("4th TEST PASSED!");
+       } else {
+           System.out.println("4th TEST FAILED");
+       }
+   }
+
+   @AfterTest
+   public void afterTest(){
+
+       driver.quit();
+       System.out.println("Test complete!");
+   }
+}
+
+And also create TestNG config file:
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Default Suite">
+ <test name="comtestdemo_node1">
+   <classes>
+     <class name="mbabilo.LogTest">
+       <methods>
+         <include name="Experitest1"/>
+         <include name="Experitest2"/>
+         <include name="Experitest3"/>
+         <include name="Experitest4"/>
+       </methods>
+     </class> <!-- mbabilo.LogTest -->
+   </classes>
+ </test> <!-- comtestdemo -->
+</suite> <!-- Default Suite -->
