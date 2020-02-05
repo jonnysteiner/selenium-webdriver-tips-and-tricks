@@ -1,0 +1,26 @@
+@DataProvider()
+    public Object[][] listOfLinks() {
+        return new Object[][] {
+                {"Mobile Device & Browser Lab", "Mobile Device & Browser Lab"},
+                {"Live Cross Browser Testing", "Cross Browser Testing"},
+                {"Automated Mobile Testing", "Mobile Test Automation!"},
+        };
+    }
+
+@Test(dataProvider = "listOfLinks")
+    public void testLink(String linkname, String header) {
+        goToLink();
+        clickLinkText(linkname);
+        Assert.assertEquals(driver.findElement(By.tagName("h1")).getText(), header);
+    }
+
+@Step("Go to URI https://experitest.com")
+    public void goToLink() {
+        driver.get("https://experitest.com/");
+    }
+
+    @Step("Click link on the page")
+    public void clickLinkText(String linkname) {
+        WebElement searchBar = driver.findElement(By.linkText(linkname));
+        searchBar.click();
+    }
