@@ -1,0 +1,21 @@
+# Direct log messages to a log file
+# specification of a library to write logs to a file
+log4j.appender.file=org.apache.log4j.RollingFileAppender
+# specification of the path and the name of .log file. Please note that for the demonstration only the name of the final file is indicated. In this case, the file will be saved in the root folder of the project.
+log4j.appender.file.File=logging.log
+## setting max size for one .log file = 10MB
+log4j.appender.file.MaxFileSize=10MB
+# set number of log files = 10. This means that when the size of the first .log file reaches 10 megabytes, a new file will be created for writing, and so on up to 10 files.
+log4j.appender.file.MaxBackupIndex=10
+# It means that the PatternLayout class will be used to use patterns
+log4j.appender.file.layout=org.apache.log4j.PatternLayout
+# This is the creation of a pattern for logging. First parameter is date and time in the specified format, second is a log level, third is a class name, then mapping level of the nested class, line number of code for which message will be logged and output message
+log4j.appender.file.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n
+
+Following this pattern, add logging to the console:
+
+# Direct log messages to stdout
+log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+log4j.appender.stdout.Target=System.out
+log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+log4j.appender.stdout.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m
