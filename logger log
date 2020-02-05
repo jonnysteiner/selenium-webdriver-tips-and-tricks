@@ -1,0 +1,96 @@
+log.info("it's ok"); or log.debug("it's ok"); or log.error("it's not ok"); etc.
+
+The code of the example test with connected logging is shown below.
+
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+
+public class LogTest {
+
+   WebDriver driver = new ChromeDriver();
+   Logger log = Logger.getLogger(LogTest.class);
+   WebDriverWait wait = new WebDriverWait(driver, 60);
+
+
+   @BeforeTest
+   public void beforeTest() {
+       PropertyConfigurator.configure("F:\\Experitest\\comtestlog4jDemo\\log4j.properties");
+       System.setProperty("webdriver.chrome.driver", "F:\\Jenkins\\workspace\\chromedriver.exe"); // <-- Change this path
+       log.info("Test started");
+   }
+
+   @Test
+   public void Experitest1() {
+       String expectedText = "Last updated: 22 May 2018";
+       String actualText = "";
+       driver.get("https://experitest.com/legal");
+       wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[2]/div/div/p[3]/span")));
+       actualText = driver.findElement(By.xpath("//div[2]/div/div/p[3]/span")).getText();
+       log.debug("get date of updating doc");
+       if (actualText.contentEquals(expectedText)) {
+           log.info("1st TEST PASSED!");
+       } else {
+           log.info("1st TEST FAILED");
+       }
+   }
+
+   @Test
+   public void Experitest2() {
+       String expectedTitle = "experitest.com";
+       String actualTitle = "";
+       driver.get("https://experitest.com/free-trial/");
+       actualTitle = driver.getTitle();
+       log.debug("get title of page");
+       if (actualTitle.contentEquals(expectedTitle)) {
+           log.info("2nd TEST PASSED!");
+       } else {
+           log.info("2nd TEST FAILED");
+       }
+   }
+
+   @Test
+   public void Experitest3() {
+       String expectedTitle = "experitest.com";
+       String actualTitle = "";
+       driver.get("https://experitest.com/pricing");
+       log.debug("page is loaded");
+       wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"starter\"]"))).click();
+       log.debug("\"Choose Plan\" button is exist and clickable");
+       actualTitle = driver.getTitle();
+       if (actualTitle.contentEquals(expectedTitle)) {
+           log.info("3rd TEST PASSED!");
+       } else {
+           log.info("3rd TEST FAILED");
+           log.debug("it's Ok, the title for this page isn't experitest.com");
+       }
+   }
+
+   @Test
+   public void Experitest4() {
+
+       wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[1]/div/div/div/div[3]/a"))).click();
+       log.debug("click at Contact Us");
+       Boolean isPresent = driver.findElements(By.xpath("/html/body/section/div/div[3]/div/div[2]/div")).size() > 0;
+       if (isPresent) {
+           log.info("4th TEST PASSED!");
+       } else {
+           log.info("4th TEST FAILED");
+       }
+   }
+
+   @AfterTest
+   public void afterTest() {
+
+       driver.quit();
+       log.info("Test complete!");
+   }
+}
+
